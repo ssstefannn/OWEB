@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Стефан Стојковиќ</title>
+    <style>
+        body {
+            padding-top: 0px;
+            background-color: rgb(245,181,27);
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .circle {
+            border-radius: 60%;
+        }
+
+        .main {
+            background-color: rgb(22,63,88);
+            border: none;
+            border-radius: 10px;
+            margin-left: 300px;
+            margin-right: 300px;
+            padding: 20px;
+            overflow: auto;
+        }
+
+
+        h1 {
+            color: rgb(245,181,27);
+            font-size: 400%;
+        }
+
+        .home {
+            font-size: 300%;
+            border-radius: 50px;
+            padding: 20px;
+            background-color: #8d1717;
+        }
+
+        button {
+            border: 5px solid black;
+            border-radius: 10px;
+            background-color: rgb(22,63,88);
+            color: rgb(245,181,27);
+            font-size: 200%;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            padding: 10px;
+            width: 270px;
+        }
+
+            button:hover {
+                box-shadow: 0 0 16px 0 blue, 0 0 50px 0 green;
+            }
+
+        .bigtext {
+            width: 100%;
+            height: 400px;
+        }
+
+        .post {
+            background-color: darkblue;
+            color: white;
+            font-weight: bold;
+            width: 100%;
+            height: 70px;
+            font-size: 200%;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        h2 {
+            color: rgb(245,181,27);
+            font-size: 200%;
+        }
+
+        .blogtext {
+            width: 100%;
+            background-color: rgb(21, 64, 131);
+            color: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h1 style="background-color:rgb(22,63,88);margin-top:-10px;margin-left:-10px;margin-right:-10px;padding-bottom:5px;margin-bottom:5px;">Добредојдовте на мојата ВЕБ страна!</h1>
+    </div>
+    <div class="center">
+        <a href="Дома.html"><button class="home">ДОМА</button></a>
+        <a href="Омилени нешта.html"><button>Омилени нешта</button></a>
+        <a href="Галерија.html"><button>Галерија</button></a>
+        <a href="Блог.html"><button>Блог</button></a>
+        <a href="Анкета за посетители.html"><button>Ваше мислење</button></a>
+        <a href="Контакт.html"><button>Контакт</button></a>
+    </div>
+    <hr />
+    <br /><br /><br />
+    <div class="center main">
+        <h2>Напишете го вашето мислење тука</h2>
+        <hr />
+        <br />
+        <form style="text-align:left;color:orange;font-size:150%;">
+            <textarea class="bigtext" type="text" /></textarea>
+            <br /><br />
+            <label style="color:orange;">Име</label>
+            <input type="text" />
+            <br /><br />
+            <label style="color:orange;">Презиме</label>
+            <input type="text" />
+            <br /><br />
+            <label style="color:orange;">Која секција најмногу ви се допадна?</label><br />
+            <input type="radio" id="omilenineshta" name="x" />
+            <label for="galerija">Омилени нешта</label><br />
+            <input type="radio" id="galerija" name="x" />
+            <label for="galerija">Галерија</label><br />
+            <input type="radio" id="blog" name="x" />
+            <label for="galerija">Блог</label><br />
+            <input type="radio" id="anketa" name="x" />
+            <label for="galerija">Ваше мислење</label><br />
+            <input type="radio" id="kontakt" name="x" />
+            <label for="galerija">Контакт</label><br />
+            <br />
+            <label style="color:orange;">Оцена од 1 до 10:</label>
+            <input type="range" min="1" max="10">
+            <br /><br />
+            <input type="checkbox" />
+            <label style="color:orange;">Дали повторно би го посетиле сајтов?</label>
+            <br /><br />
+            <div style="text-align:right;">
+                <input class="post" type="submit" value="Прати" />
+            </div>
+        </form>
+        <br /><br /><br />
+    </div>
+</body>
+</html>
