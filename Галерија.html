@@ -50,9 +50,9 @@
             width: 270px;
         }
 
-            button:hover {
-                box-shadow: 0 0 16px 0 blue, 0 0 50px 0 green;
-            }
+        button:hover {
+            box-shadow: 0 0 16px 0 blue, 0 0 50px 0 green;
+        }
 
         .like {
             background-color: #3ae200;
@@ -69,14 +69,15 @@
             transition-duration: 0.4s;
         }
 
-            .like:hover {
-                box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
-            }
+        .like:hover {
+            box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
+        }
 
         .post {
             background-color: darkblue;
             color: white;
             font-weight: bold;
+            vertical-align:top;
         }
 
         input[type="file"] {
@@ -97,12 +98,33 @@
             transition-duration: 0.4s;
         }
 
-            .custom-file-upload:hover {
-                box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
-            }
+        .custom-file-upload:hover {
+            box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
+        }
+
+        .yellow-button {
+            color: rgb(22,63,88);
+            border: 1px solid yellow;
+            border-radius: 10px;
+            padding: 6px 12px;
+            cursor: pointer;
+            width: 300px;
+            height: 125px;
+            font-size: 30px;
+            font-weight: bold;
+            background-color: rgb(245,181,27);
+            transition-duration: 0.4s;
+        }
+
+        .yellow-button:hover {
+            box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
+        }
 
         .write-comment {
             width: 700px;
+            height:30px;
+            background-color:#ffbf00;
+            padding:5px;
         }
 
         h2 {
@@ -110,6 +132,90 @@
             font-size: 200%;
         }
     </style>
+    <script type="text/javascript">
+        function showPreupload(form) {
+            var filePath = form.uploadButton.value;
+            var img = document.createElement("img");
+            img.src = filePath.replace('C:\\fakepath\\', 'Pictures\\');
+            img.style = "display:inline-block;vertical-align:top;margin-right:10px;border-radius:20px;width:100px;height:125px;";
+            var descriptionText = document.createElement("textarea");
+            descriptionText.style = "display:inline-block;vertical-align:top;margin-right:10px;border-radius:5px;width:400px;height:125px;font-size:20px;background-color:#ffbf00;";
+            descriptionText.placeholder = "Напиши нешто за сликата...";
+            var submit = document.createElement("button");
+            submit.classList.add("yellow-button");
+            submit.onclick = function () {
+                postContent(img, descriptionText);
+            }
+            submit.innerHTML = "Објави!";
+            var title = document.createElement("h2");
+            title.innerHTML = "Одбраната слика е <u>" + img.src.replace('file:///C:/Users/Intel/Desktop/OWEB_Proekt/Pictures/', '') + "</u>";
+            var preupload = document.getElementById("preupload");
+            preupload.appendChild(title);
+            preupload.appendChild(img);
+            preupload.appendChild(descriptionText);
+            preupload.appendChild(submit);
+            preupload.style = "margin-bottom:20px;";
+        }
+
+        function postContent(img, descriptionText) {
+            var contentFrame = document.createElement("div");
+            contentFrame.innerHTML = "<div style=\"display: inline-block; vertical-align: top; width: 400px; max - width: 400px; margin-right: 10px; \">" +
+                "<img style = \"border-radius:20px;\" src=\" " + img.src +" \" width = \"400px\" height = \"500px\" />" +
+                "</div >" +
+                "<div style=\"border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;\">" +
+                "<br />" +
+                "<div style=\"display:normal;padding:10px;word-wrap:break-word;\">" +
+                "<p style=\"font-size:25px;color:orange;\">" + descriptionText.value + "</p>" +
+                "</div>" +
+                "<hr style=\"border:1px dashed orange;\" />" +
+                "<b>" +
+                "<div style=\"display:normal;text-align:center;\">" +
+                "<div style=\"display:inline-block;vertical-align:middle;\">"+
+                "<form>" +
+                "<input class=\"like\" type=\"button\" value=\"Ми се допаѓа\" onclick=\"incrementLikeCounter(" + (picID) + ");\" />" +
+                "</form>" +
+                "</div>" +
+                "<div style=\"display:inline-block;vertical-align:middle;margin-left:20px;\"><h2 id=\"likeCounter" + (picID++) + "\">0</h2></div>" +
+                "</div>" +
+                "</b>" +
+                "<hr style=\"border:1px dashed orange;\" />" +
+                "<br />" +
+                "<div id=\"commentSection" + picID+"\" style = \"display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; \" >"+
+                "<u><b>Место за коментари</b><u>" +
+                "</div>" +
+                "<br />" +
+                "<div style=\"display:normal;\">" +
+                "<form>" +
+                "<textarea id=\"newComment" + picID + "\" class=\"write-comment\" placeholder = \"Напиши коментар\" ></textarea >" +
+                "<input class=\"post\" type=\"button\" value=\"↑Објави↑\" onclick=\"postComment(" + (picID++) + ");\" />" +
+                "</form>" +
+                "</div>" +
+                "</div>" +
+                "</div>" + "<br><hr><br>";
+            var album = document.getElementById("album");
+            album.prepend(contentFrame);
+            var preupload = document.getElementById("preupload");
+            preupload.innerHTML = "";
+        }
+
+        function incrementLikeCounter(input) {
+            var current = document.getElementById("likeCounter"+input);
+            var value = parseInt(current.textContent);
+            value++;
+            current.textContent = value;
+        }
+
+        function postComment(input) {
+            var cs = document.getElementById("commentSection" + input);
+            var textarea = document.getElementById("newComment" + input);
+            cs.innerHTML = cs.innerHTML + "<br><br>" + textarea.value;
+            textarea.value = "";
+
+        }
+
+        picID = 7;
+
+    </script>
 </head>
 <body>
     <div class="center">
@@ -125,256 +231,277 @@
     </div>
     <hr />
     <br /><br /><br />
+    <div style="float:left;">
+        <iframe style="padding-left:55px;position:fixed;" src="https://free.timeanddate.com/clock/i82f61yq/n673/szw160/szh160/hoc09f/hbw0/hfc09f/cf100/hnce1ead6/fiv0/fas30/fdi66/mqc000/mql15/mqw4/mqd98/mhc000/mhl15/mhw4/mhd98/mmc000/mml10/mmw1/mmd98/hwm2/hhs2/hms2" frameborder="0" width="160" height="160"></iframe>
+    </div>
     <div class="main">
         <h2 style="text-align:center;">Галерија</h2>
         <hr />
         <br />
         <div style="text-align:right;">
             <form>
-                <label class="custom-file-upload"><input type="file" />↓Додади нова слика↓</label>
+                <label class="custom-file-upload"><input type="file" name="uploadButton" oninput="showPreupload(this.form);"/>↓Додади нова слика↓</label>
             </form>
         </div>
         <br /><br /><br />
 
-        <div>
-            <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
-                <img style="border-radius:20px;" src="Pictures\jas1.png" width="400px" height="500px" />
-            </div>
-            <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
-                <br />
-                <div style="display:normal;padding:10px;">
-                    <p style="font-size:25px;color:orange;">Јас и ништо повеќе :)</p>
+        <div id="preupload"></div>
+
+        <div id="album">
+            <div>
+                <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
+                    <img style="border-radius:20px;" src="Pictures\jas1.png" width="400px" height="500px" />
                 </div>
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <b>
-                    <div style="display:normal;text-align:center;">
+                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                    <br />
+                    <div style="display:normal;padding:10px;">
+                        <p style="font-size:25px;color:orange;">Јас и ништо повеќе :)</p>
+                    </div>
+                    <hr style="border:1px dashed orange;" />
+                    <b>
+                        <div style="display:normal;text-align:center;">
+                            <div style="display:inline-block;vertical-align:middle;">
+                                <form>
+                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(6);" />
+                                </form>
+                            </div>
+                            <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter6">0</h2></div>
+                        </div>
+                    </b>
+                    <hr style="border:1px dashed orange;" />
+                    <br />
+                    <div id="commentSection6" style="display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; ">
+                        <u><b>Место за коментари</b><u>
+                    </div>
+                    <br />
+                    <div style="display:normal;">
                         <form>
-                            <input class="like" type="button" value="Ми се допаѓа" />
+                            <textarea id="newComment6" class="write-comment" placeholder="Напиши коментар"></textarea>
+                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(6);"/>
                         </form>
                     </div>
-                </b>
-                <br />
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <div style="display:normal;">
-                    <p style="color:white;">Место за коментари</p>
-                </div>
-                <div style="display:normal;">
-                    <form>
-                        <input class="write-comment" type="text" value="write a comment" />
-                        <input class="post" type="submit" value="Објави >>" />
-                    </form>
                 </div>
             </div>
-        </div>
-        <br />
-        <hr />
-        <br />
-        <div>
-            <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
-                <img style="border-radius:20px;" src="Pictures\dunav.png" width="400px" height="500px" />
-            </div>
-            <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
-                <br />
-                <div style="display:normal;padding:10px;">
-                    <p style="font-size:25px;color:orange;">Екскурзија во Белград, на сликата е реката Дунав.</p>
+            <br />
+            <hr />
+            <br />
+            <div>
+                <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
+                    <img style="border-radius:20px;" src="Pictures\dunav.png" width="400px" height="500px" />
                 </div>
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <b>
-                    <div style="display:normal;text-align:center;">
+                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                    <br />
+                    <div style="display:normal;padding:10px;">
+                        <p style="font-size:25px;color:orange;">Екскурзија во Белград, на сликата е реката Дунав.</p>
+                    </div>
+                    <hr style="border:1px dashed orange;" />
+                    <b>
+                        <div style="display:normal;text-align:center;">
+                            <div style="display:inline-block;vertical-align:middle;">
+                                <form>
+                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(5);" />
+                                </form>
+                            </div>
+                            <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter5">0</h2></div>
+                        </div>
+                    </b>
+                    <hr style="border:1px dashed orange;" />
+                    <br />
+                    <div id="commentSection5" style="display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; ">
+                        <u><b>Место за коментари</b><u>
+                    </div>
+                    <br />
+                    <div style="display:normal;">
                         <form>
-                            <input class="like" type="button" value="Ми се допаѓа" />
+                            <textarea id="newComment5" class="write-comment" placeholder="Напиши коментар"></textarea>
+                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(5);" />
                         </form>
                     </div>
-                </b>
-                <br />
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <div style="display:normal;">
-                    <p style="color:white;">Место за коментари</p>
-                </div>
-                <div style="display:normal;">
-                    <form>
-                        <input class="write-comment" type="text" value="write a comment" />
-                        <input class="post" type="submit" value="Објави >>" />
-                    </form>
                 </div>
             </div>
-        </div>
-        <br />
-        <hr />
-        <br />
-        <div>
-            <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
-                <img style="border-radius:20px;" src="Pictures\crnamamba.png" width="400px" height="500px" />
-            </div>
-            <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
-                <br />
-                <div style="display:normal;padding:10px;">
-                    <p style="font-size:25px;color:orange;">Натпревар по хемија во Париз,Франција. На сликата е најотровната змија на светот : црна мамба</p>
+            <br />
+            <hr />
+            <br />
+            <div>
+                <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
+                    <img style="border-radius:20px;" src="Pictures\crnamamba.png" width="400px" height="500px" />
                 </div>
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <b>
-                    <div style="display:normal;text-align:center;">
+                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                    <br />
+                    <div style="display:normal;padding:10px;">
+                        <p style="font-size:25px;color:orange;">Натпревар по хемија во Париз,Франција. На сликата е најотровната змија на светот : црна мамба</p>
+                    </div>
+                    <hr style="border:1px dashed orange;" />
+                    <b>
+                        <div style="display:normal;text-align:center;">
+                            <div style="display:inline-block;vertical-align:middle;">
+                                <form>
+                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(4);" />
+                                </form>
+                            </div>
+                            <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter4">0</h2></div>
+                        </div>
+                    </b>
+                    <hr style="border:1px dashed orange;" />
+                    <br />
+                    <div id="commentSection4" style="display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; ">
+                        <u><b>Место за коментари</b><u>
+                    </div>
+                    <br />
+                    <div style="display:normal;">
                         <form>
-                            <input class="like" type="button" value="Ми се допаѓа" />
+                            <textarea id="newComment4" class="write-comment" placeholder="Напиши коментар"></textarea>
+                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(4);" />
                         </form>
                     </div>
-                </b>
-                <br />
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <div style="display:normal;">
-                    <p style="color:white;">Место за коментари</p>
-                </div>
-                <div style="display:normal;">
-                    <form>
-                        <input class="write-comment" type="text" value="write a comment" />
-                        <input class="post" type="submit" value="Објави >>" />
-                    </form>
                 </div>
             </div>
-        </div>
-        <br />
-        <hr />
-        <br />
-        <div>
-            <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
-                <img style="border-radius:20px;" src="Pictures\bukvas.png" width="400px" height="500px" />
-            </div>
-            <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
-                <br />
-                <div style="display:normal;padding:10px;">
-                    <p style="font-size:25px;color:orange;">S for Stefan</p>
+            <br />
+            <hr />
+            <br />
+            <div>
+                <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
+                    <img style="border-radius:20px;" src="Pictures\bukvas.png" width="400px" height="500px" />
                 </div>
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <b>
-                    <div style="display:normal;text-align:center;">
+                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                    <br />
+                    <div style="display:normal;padding:10px;">
+                        <p style="font-size:25px;color:orange;">S for Stefan</p>
+                    </div>
+                    <hr style="border:1px dashed orange;" />
+                    <b>
+                        <div style="display:normal;text-align:center;">
+                            <div style="display:inline-block;vertical-align:middle;">
+                                <form>
+                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(3);" />
+                                </form>
+                            </div>
+                            <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter3">0</h2></div>
+                        </div>
+                    </b>
+                    <hr style="border:1px dashed orange;" />
+                    <br />
+                    <div id="commentSection3" style="display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; ">
+                        <u><b>Место за коментари</b><u>
+                    </div>
+                    <br />
+                    <div style="display:normal;">
                         <form>
-                            <input class="like" type="button" value="Ми се допаѓа" />
+                            <textarea id="newComment3" class="write-comment" placeholder="Напиши коментар"></textarea>
+                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(3);" />
                         </form>
                     </div>
-                </b>
-                <br />
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <div style="display:normal;">
-                    <p style="color:white;">Место за коментари</p>
-                </div>
-                <div style="display:normal;">
-                    <form>
-                        <input class="write-comment" type="text" value="write a comment" />
-                        <input class="post" type="submit" value="Објави >>" />
-                    </form>
                 </div>
             </div>
-        </div>
-        <br />
-        <hr />
-        <br />
-        <div>
-            <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
-                <img style="border-radius:20px;" src="Pictures\zamok.png" width="400px" height="500px" />
-            </div>
-            <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
-                <br />
-                <div style="display:normal;padding:10px;">
-                    <p style="font-size:25px;color:orange;">Екскурзија низ Европа. На сликата е Duomo Milano, или Миланската Катедрала. Најубавата градба што ја имам видено до сега</p>
+            <br />
+            <hr />
+            <br />
+            <div>
+                <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
+                    <img style="border-radius:20px;" src="Pictures\zamok.png" width="400px" height="500px" />
                 </div>
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <b>
-                    <div style="display:normal;text-align:center;">
+                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                    <br />
+                    <div style="display:normal;padding:10px;">
+                        <p style="font-size:25px;color:orange;">Екскурзија низ Европа. На сликата е Duomo Milano, или Миланската Катедрала. Најубавата градба што ја имам видено до сега</p>
+                    </div>
+                    <hr style="border:1px dashed orange;" />
+                    <b>
+                        <div style="display:normal;text-align:center;">
+                            <div style="display:inline-block;vertical-align:middle;">
+                                <form>
+                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(2);" />
+                                </form>
+                            </div>
+                            <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter2">0</h2></div>
+                        </div>
+                    </b>
+                    <hr style="border:1px dashed orange;" />
+                    <br />
+                    <div id="commentSection2" style="display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; ">
+                        <u><b>Место за коментари</b><u>
+                    </div>
+                    <br />
+                    <div style="display:normal;">
                         <form>
-                            <input class="like" type="button" value="Ми се допаѓа" />
+                            <textarea id="newComment2" class="write-comment" placeholder="Напиши коментар"></textarea>
+                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(2);" />
                         </form>
                     </div>
-                </b>
-                <br />
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <div style="display:normal;">
-                    <p style="color:white;">Место за коментари</p>
-                </div>
-                <div style="display:normal;">
-                    <form>
-                        <input class="write-comment" type="text" value="write a comment" />
-                        <input class="post" type="submit" value="Објави >>" />
-                    </form>
                 </div>
             </div>
-        </div>
-        <br />
-        <hr />
-        <br />
-        <div>
-            <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
-                <img style="border-radius:20px;" src="Pictures\jasimama.png" width="400px" height="500px" />
-            </div>
-            <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
-                <br />
-                <div style="display:normal;padding:10px;">
-                    <p style="font-size:25px;color:orange;">Јас и мајка ми на мојот 21ви роденден</p>
+            <br />
+            <hr />
+            <br />
+            <div>
+                <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
+                    <img style="border-radius:20px;" src="Pictures\jasimama.png" width="400px" height="500px" />
                 </div>
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <b>
-                    <div style="display:normal;text-align:center;">
+                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                    <br />
+                    <div style="display:normal;padding:10px;">
+                        <p style="font-size:25px;color:orange;">Јас и мајка ми на мојот 21ви роденден</p>
+                    </div>
+                    <hr style="border:1px dashed orange;" />
+                    <b>
+                        <div style="display:normal;text-align:center;">
+                            <div style="display:inline-block;vertical-align:middle;">
+                                <form>
+                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(1);" />
+                                </form>
+                            </div>
+                            <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter1">0</h2></div>
+                        </div>
+                    </b>
+                    <hr style="border:1px dashed orange;" />
+                    <br />
+                    <div id="commentSection1" style="display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; ">
+                        <u><b>Место за коментари</b><u>
+                    </div>
+                    <br />
+                    <div style="display:normal;">
                         <form>
-                            <input class="like" type="button" value="Ми се допаѓа" />
+                            <textarea id="newComment1" class="write-comment" placeholder="Напиши коментар"></textarea>
+                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(1);" />
                         </form>
                     </div>
-                </b>
-                <br />
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <div style="display:normal;">
-                    <p style="color:white;">Место за коментари</p>
-                </div>
-                <div style="display:normal;">
-                    <form>
-                        <input class="write-comment" type="text" value="write a comment" />
-                        <input class="post" type="submit" value="Објави >>" />
-                    </form>
                 </div>
             </div>
-        </div>
-        <br />
-        <hr />
-        <br />
-        <div>
-            <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
-                <img style="border-radius:20px;" src="Pictures\rusija.png" width="400px" height="500px" />
-            </div>
-            <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
-                <br />
-                <div style="display:normal;padding:10px;">
-                    <p style="font-size:25px;color:orange;">Натпревар по хемија во Санкт Петербург,Русија. На сликата е некој имот на Путин. Во далечината се наоѓа балтичко море</p>
+            <br />
+            <hr />
+            <br />
+            <div>
+                <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
+                    <img style="border-radius:20px;" src="Pictures\rusija.png" width="400px" height="500px" />
                 </div>
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <b>
-                    <div style="display:normal;text-align:center;">
+                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                    <br />
+                    <div style="display:normal;padding:10px;">
+                        <p style="font-size:25px;color:orange;">Натпревар по хемија во Санкт Петербург,Русија. На сликата е некој имот на Путин. Во далечината се наоѓа балтичко море</p>
+                    </div>
+                    <hr style="border:1px dashed orange;" />
+                    <b>
+                        <div style="display:normal;text-align:center;">
+                            <div style="display:inline-block;vertical-align:middle;">
+                                <form>
+                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(0);" />
+                                </form>
+                            </div>
+                            <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter0">0</h2></div>
+                        </div>
+                    </b>
+                    <hr style="border:1px dashed orange;" />
+                    <br />
+                    <div id="commentSection0" style="display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; ">
+                        <u><b>Место за коментари</b><u>
+                    </div>
+                    <br />
+                    <div style="display:normal;">
                         <form>
-                            <input class="like" type="button" value="Ми се допаѓа" />
+                            <textarea id="newComment0" class="write-comment" placeholder="Напиши коментар"></textarea>
+                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(0);" />
                         </form>
                     </div>
-                </b>
-                <br />
-                <hr style="border:1px dashed orange;" />
-                <br />
-                <div style="display:normal;">
-                    <p style="color:white;">Место за коментари</p>
-                </div>
-                <div style="display:normal;">
-                    <form>
-                        <input class="write-comment" type="text" value="write a comment" />
-                        <input class="post" type="submit" value="Објави >>" />
-                    </form>
                 </div>
             </div>
         </div>
