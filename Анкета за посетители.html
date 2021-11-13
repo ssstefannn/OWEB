@@ -59,6 +59,8 @@
         .bigtext {
             width: 100%;
             height: 400px;
+            background-color:#ffbf00;
+            font-size:20px;
         }
 
         .post {
@@ -83,7 +85,33 @@
             color: white;
             border-radius: 10px;
         }
+
+        input[type="text"]{
+            height:20px;
+            background-color:#ffbf00;
+            font-size:20px;
+        }
     </style>
+    <script type="text/javascript">
+        function displayValue(input) {
+            var label = document.getElementById("range");
+            label.textContent =  input.value;
+        }
+
+        function showFormInput(form) {
+            var name = form.name.value;
+            var surname = form.surname.value;
+            var text = form.bigtext.value;
+            var grade = form.grade.value;
+            var checkbox = form.checkbox;
+            var finish = document.getElementById("form");
+            finish.style = "color:orange;font-size:20px;text-align:left;"
+            finish.innerHTML = "<h2>Преглед на внесените податоци:</h2>" + "Име:" + name + "<br>Презиме: " + surname + "<br>Оцена: " + grade + "<br>Би го посетиле сајтот повторно: " + (checkbox.checked ? "Да" : "Не") + "<br>Мислење: " + text +
+                "<h2>Ви благодарам!!!</h2>";
+
+
+        }
+    </script>
 </head>
 <body>
     <div class="center">
@@ -99,41 +127,47 @@
     </div>
     <hr />
     <br /><br /><br />
+    <div style="float:left;">
+        <iframe style="padding-left:55px;position:sticky;top:0px;" src="https://free.timeanddate.com/clock/i82f61yq/n673/szw160/szh160/hoc09f/hbw0/hfc09f/cf100/hnce1ead6/fiv0/fas30/fdi66/mqc000/mql15/mqw4/mqd98/mhc000/mhl15/mhw4/mhd98/mmc000/mml10/mmw1/mmd98/hwm2/hhs2/hms2" frameborder="0" width="160" height="160"></iframe>
+    </div>
     <div class="center main">
         <h2>Напишете го вашето мислење тука</h2>
         <hr />
         <br />
-        <form style="text-align:left;color:orange;font-size:150%;">
-            <textarea class="bigtext" type="text" /></textarea>
-            <br /><br />
-            <label style="color:orange;">Име</label>
-            <input type="text" />
-            <br /><br />
-            <label style="color:orange;">Презиме</label>
-            <input type="text" />
-            <br /><br />
-            <label style="color:orange;">Која секција најмногу ви се допадна?</label><br />
-            <input type="radio" id="omilenineshta" name="x" />
-            <label for="galerija">Омилени нешта</label><br />
-            <input type="radio" id="galerija" name="x" />
-            <label for="galerija">Галерија</label><br />
-            <input type="radio" id="blog" name="x" />
-            <label for="galerija">Блог</label><br />
-            <input type="radio" id="anketa" name="x" />
-            <label for="galerija">Ваше мислење</label><br />
-            <input type="radio" id="kontakt" name="x" />
-            <label for="galerija">Контакт</label><br />
-            <br />
-            <label style="color:orange;">Оцена од 1 до 10:</label>
-            <input type="range" min="1" max="10">
-            <br /><br />
-            <input type="checkbox" />
-            <label style="color:orange;">Дали повторно би го посетиле сајтов?</label>
-            <br /><br />
-            <div style="text-align:right;">
-                <input class="post" type="submit" value="Прати" />
-            </div>
-        </form>
+        <div id="form">
+            <form style="text-align:left;color:orange;font-size:150%;">
+                <textarea name="bigtext" class="bigtext" type="text" /></textarea>
+                <br /><br />
+                <label style="color:orange;">Име</label>
+                <input name="name" type="text" />
+                <br /><br />
+                <label style="color:orange;">Презиме</label>
+                <input name="surname" type="text" />
+                <br /><br />
+                <label style="color:orange;">Која секција најмногу ви се допадна?</label><br />
+                <input type="radio" id="omilenineshta" name="x" />
+                <label for="galerija">Омилени нешта</label><br />
+                <input type="radio" id="galerija" name="x" />
+                <label for="galerija">Галерија</label><br />
+                <input type="radio" id="blog" name="x" />
+                <label for="galerija">Блог</label><br />
+                <input type="radio" id="anketa" name="x" />
+                <label for="galerija">Ваше мислење</label><br />
+                <input type="radio" id="kontakt" name="x" />
+                <label for="galerija">Контакт</label><br />
+                <br />
+                <label style="color:orange;">Оцена од 1 до 10: </label>
+                <input name="grade" type="range" min="1" max="10" oninput="displayValue(this);">
+                <label id="range" style="color:orange;">6</label>
+                <br /><br />
+                <input name="checkbox" type="checkbox" />
+                <label style="color:orange;">Дали повторно би го посетиле сајтов?</label>
+                <br /><br />
+                <div style="text-align:right;">
+                    <input class="post" type="button" value="Прати" onclick="showFormInput(this.form);" />
+                </div>
+            </form>
+        </div>
         <br /><br /><br />
     </div>
 </body>
