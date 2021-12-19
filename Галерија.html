@@ -3,10 +3,79 @@
 <head>
     <meta charset="utf-8" />
     <title>Стефан Стојковиќ</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("a[href$='.html']>button").addClass("test");
+            $("a").wrap("<div style=\"display:inline;\"></div>");
+            $("a").each(function () {
+                $(this).css("animation-duration", (0.1 + 0.3 * $(this).parent().index()) + "s");
+            });
+            $("a[href$='.html']>button").append("<p class=\"underline\" style=\"width:0px;height:0px;\"></p>");
+            $("a[href$='.html']>button").each(function () {
+                $(this).on('mouseover', function () {
+                    $(this).children("p").css({ "width": "100%", "height": "3px", "background": "linear-gradient(-45deg, rgb(245,181,27), #ff6500, orange, gold)" });
+                    $(this).css("color", "orange");
+                });
+                $(this).on('mouseout', function () {
+                    $(this).children("p").css({ "width": "0", "height": "0", "background-color": "yellow" });
+                    $(this).css("color", "rgb(245,181,27)");
+                });
+            });
+            $(".yellow-button").css("color", "yellow");
+            $(".write-comment").each(function () {
+                $(this).on('keyup', function (e) {
+                    if (e.keyCode == 13) {
+                        postComment(parseInt($(this).attr("id").replace(/newComment/, "")));
+                    }
+                });
+            });
+            $("input.like").each(function () {
+                $(this).on('click', function () {
+                    $(this).addClass("like-action");
+                    var $this = $(this);
+                    setTimeout(function () {
+                        $this.removeClass("like-action");
+                    }, 1000);
+                });
+            });
+            $("img").each(function () {
+                $(this).css("transition-duration", "1s");
+                $(this).on('mouseover', function () {
+                    $(this).css({ "transform": "scale(1.1)", "box-shadow": "0 0 40px 20px white" });
+                    var $this = $(this);
+                    setTimeout(function () {
+                        $this.css({ "transform": "none", "box-shadow": "none" });
+                    }, 500);
+                });
+            });
+            $("input[value='↑Објави↑'").each(function () {
+                $(this).css("background-color", "rgba(22,64,88,0.9)");
+                $(this).css("color", "orange");
+            });
+        });
+    </script>
     <style>
         body {
             padding-top: 0px;
-            background-color: rgb(245,181,27);
+            background: linear-gradient(-45deg, rgba(242,222,3,1) 20%, rgba(245,181,27,1) 35%, rgba(245,122,27,1) 55%, rgba(100,100,255,1) 65%);
+            background-size: 300% 300%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .center {
@@ -18,12 +87,21 @@
         }
 
         .main {
-            background-color: rgb(22,63,88);
+            background: rgb(22,64,88);
             border: none;
             border-radius: 10px;
             margin-left: 300px;
             margin-right: 300px;
             padding: 10px;
+            animation-name: main;
+            animation-duration: 1s;
+        }
+
+        @keyframes main {
+            from {
+                margin-top: 300px;
+                opacity: 0%;
+            }
         }
 
         h1 {
@@ -36,12 +114,12 @@
             border-radius: 50px;
             padding: 20px;
             background-color: #8d1717;
+            background: linear-gradient(-45deg, rgba(242,133,133,1) 3%, rgba(141,23,23,1) 84%);
         }
 
         button {
-            border: 5px solid black;
             border-radius: 10px;
-            background-color: rgb(22,63,88);
+            background: radial-gradient(250px, rgba(54,163,230,1) 3%, rgba(22,63,88,1) 84%);
             color: rgb(245,181,27);
             font-size: 200%;
             transition-duration: 0.4s;
@@ -50,34 +128,79 @@
             width: 270px;
         }
 
-        button:hover {
-            box-shadow: 0 0 16px 0 blue, 0 0 50px 0 green;
+        .test:hover {
+            transform: scale(1.5);
+            color: rgb(255,200,50);
+        }
+
+        a {
+            animation-name: intro;
+        }
+
+        @keyframes intro {
+            from {
+                margin-left: -1000px;
+            }
+        }
+
+        .underline {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            transition: height 0.25s,width 0.5s,background 0s;
         }
 
         .like {
-            background-color: #3ae200;
-            border: 3px solid lightgreen;
+            background-color: rgba(54,163,230,0.9);
+            border: none;
             width: 200px;
             height: 50px;
             border-radius: 10px;
             cursor: pointer;
-            color: black;
+            color: orange;
+            box-shadow: 0 0 16px 0 white;
             font-family: 'Macedonian Classic';
-            font-size: 25px;
+            font-size: 40px;
             font-weight: bold;
-            box-shadow: 0 0 16px 0 green, 0 0 50px 0 green;
             transition-duration: 0.4s;
         }
 
-        .like:hover {
-            box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
+            .like:hover {
+                box-shadow: 0 0 16px 0 white, 0 0 50px 0 white;
+            }
+
+        .like-action {
+            animation-name: like-action;
+            animation-duration: 1s;
+        }
+
+        @keyframes like-action {
+            30% {
+                transform: translate(130px);
+                background-color: rgba(54,163,230,0.9);
+            }
+
+            50% {
+                transform: translate(130px) scale(0.9);
+                box-shadow: 0 0 16px 0 white, 0 0 50px 0 white, 0 0 100px 20px white;
+                background-color: #9fe0f2;
+            }
+
+            70% {
+                transform: translate(130px);
+                box-shadow: 0 0 16px 0 white, 0 0 50px 0 white;
+                background-color: rgba(54,163,230,0.9);
+            }
+
+            100% {
+                transform: none;
+            }
         }
 
         .post {
             background-color: darkblue;
             color: white;
             font-weight: bold;
-            vertical-align:top;
+            vertical-align: top;
         }
 
         input[type="file"] {
@@ -98,13 +221,12 @@
             transition-duration: 0.4s;
         }
 
-        .custom-file-upload:hover {
-            box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
-        }
+            .custom-file-upload:hover {
+                box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
+            }
 
         .yellow-button {
-            color: rgb(22,63,88);
-            border: 1px solid yellow;
+            color: orange;
             border-radius: 10px;
             padding: 6px 12px;
             cursor: pointer;
@@ -116,15 +238,15 @@
             transition-duration: 0.4s;
         }
 
-        .yellow-button:hover {
-            box-shadow: 0 0 16px 0 gold, 0 0 50px 0 gold;
-        }
+            .yellow-button:hover {
+                box-shadow: 0 0 30px 0 white;
+            }
 
         .write-comment {
             width: 700px;
-            height:30px;
-            background-color:#ffbf00;
-            padding:5px;
+            height: 30px;
+            background-color: #ffbf00;
+            padding: 5px;
         }
 
         h2 {
@@ -141,6 +263,7 @@
             var descriptionText = document.createElement("textarea");
             descriptionText.style = "display:inline-block;vertical-align:top;margin-right:10px;border-radius:5px;width:400px;height:125px;font-size:20px;background-color:#ffbf00;";
             descriptionText.placeholder = "Напиши нешто за сликата...";
+            descriptionText.maxLength = 130;
             var submit = document.createElement("button");
             submit.classList.add("yellow-button");
             submit.onclick = function () {
@@ -160,19 +283,19 @@
         function postContent(img, descriptionText) {
             var contentFrame = document.createElement("div");
             contentFrame.innerHTML = "<div style=\"display: inline-block; vertical-align: top; width: 400px; max - width: 400px; margin-right: 10px; \">" +
-                "<img style = \"border-radius:20px;\" src=\" " + img.src +" \" width = \"400px\" height = \"500px\" />" +
+                "<img style = \"border-radius:20px;\" src=\" " + img.src + " \" width = \"400px\" height = \"500px\" />" +
                 "</div >" +
-                "<div style=\"border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;\">" +
+                "<div style=\"border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 84%);border:none;height:500px;max-height:500px;width:800px;max-width:800px;\">" +
                 "<br />" +
                 "<div style=\"display:normal;padding:10px;word-wrap:break-word;\">" +
-                "<p style=\"font-size:25px;color:orange;\">" + descriptionText.value + "</p>" +
+                "<p style=\"font-size:25px;color:orange;margin-top:0;\">" + descriptionText.value + "</p>" +
                 "</div>" +
                 "<hr style=\"border:1px dashed orange;\" />" +
                 "<b>" +
                 "<div style=\"display:normal;text-align:center;\">" +
-                "<div style=\"display:inline-block;vertical-align:middle;\">"+
+                "<div style=\"display:inline-block;vertical-align:middle;\">" +
                 "<form>" +
-                "<input class=\"like\" type=\"button\" value=\"Ми се допаѓа\" onclick=\"incrementLikeCounter(" + (picID) + ");\" />" +
+                "<input class=\"like\" type=\"button\" value=\"♥\" onclick=\"incrementLikeCounter(" + (picID) + ");\" />" +
                 "</form>" +
                 "</div>" +
                 "<div style=\"display:inline-block;vertical-align:middle;margin-left:20px;\"><h2 id=\"likeCounter" + (picID++) + "\">0</h2></div>" +
@@ -180,14 +303,14 @@
                 "</b>" +
                 "<hr style=\"border:1px dashed orange;\" />" +
                 "<br />" +
-                "<div id=\"commentSection" + picID+"\" style = \"display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; \" >"+
+                "<div id=\"commentSection" + picID + "\" style = \"display: normal; height:150px; overflow-y: scroll; color: orange;border:solid 2px orange;padding:10px; \" >" +
                 "<u><b>Место за коментари</b><u>" +
                 "</div>" +
                 "<br />" +
                 "<div style=\"display:normal;\">" +
                 "<form>" +
                 "<textarea id=\"newComment" + picID + "\" class=\"write-comment\" placeholder = \"Напиши коментар\" ></textarea >" +
-                "<input class=\"post\" type=\"button\" value=\"↑Објави↑\" onclick=\"postComment(" + (picID++) + ");\" />" +
+                "<input class=\"post\" type=\"button\" value=\"↑Објави↑\" onclick=\"postComment(" + (picID++) + ");\" style=\"background-color:rgba(22,64,88,0.9);color:orange;\" />" +
                 "</form>" +
                 "</div>" +
                 "</div>" +
@@ -199,10 +322,10 @@
         }
 
         function incrementLikeCounter(input) {
-            var current = document.getElementById("likeCounter"+input);
+            var current = document.getElementById("likeCounter" + input);
             var value = parseInt(current.textContent);
             value++;
-            current.textContent = value;
+            setTimeout(function () { current.textContent = value; }, 500);
         }
 
         function postComment(input) {
@@ -221,7 +344,7 @@
     <div class="center">
         <h1 style="background-color:rgb(22,63,88);margin-top:-10px;margin-left:-10px;margin-right:-10px;padding-bottom:5px;margin-bottom:5px;">Добредојдовте на мојата ВЕБ страна!</h1>
     </div>
-    <div class="center">
+    <div class="center" style="text-align:left;margin-left:100px;">
         <a href="Дома.html"><button class="home">ДОМА</button></a>
         <a href="Омилени нешта.html"><button>Омилени нешта</button></a>
         <a href="Галерија.html"><button>Галерија</button></a>
@@ -231,16 +354,13 @@
     </div>
     <hr />
     <br /><br /><br />
-    <div style="float:left;">
-        <iframe style="padding-left:55px;position:sticky;top:0px;" src="https://free.timeanddate.com/clock/i82f61yq/n673/szw160/szh160/hoc09f/hbw0/hfc09f/cf100/hnce1ead6/fiv0/fas30/fdi66/mqc000/mql15/mqw4/mqd98/mhc000/mhl15/mhw4/mhd98/mmc000/mml10/mmw1/mmd98/hwm2/hhs2/hms2" frameborder="0" width="160" height="160"></iframe>
-    </div>
     <div class="main">
         <h2 style="text-align:center;">Галерија</h2>
         <hr />
         <br />
         <div style="text-align:right;">
             <form>
-                <label class="custom-file-upload"><input type="file" name="uploadButton" oninput="showPreupload(this.form);"/>↓Додади нова слика↓</label>
+                <label class="custom-file-upload"><input type="file" name="uploadButton" oninput="showPreupload(this.form);" />↓Додади нова слика↓</label>
             </form>
         </div>
         <br /><br /><br />
@@ -252,17 +372,17 @@
                 <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
                     <img style="border-radius:20px;" src="Pictures\jas1.png" width="400px" height="500px" />
                 </div>
-                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                <div style="border-radius: 20px; padding: 5px; display: inline-block; vertical-align: top; text-align: left; max-width: 500px;background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 80%);border:none; height: 500px; max-height: 500px; width: 800px; max-width: 800px; ">
                     <br />
                     <div style="display:normal;padding:10px;">
-                        <p style="font-size:25px;color:orange;">Јас и ништо повеќе :)</p>
+                        <p style="font-size:25px;color:orange;margin-top:0;">Јас и ништо повеќе :)</p>
                     </div>
                     <hr style="border:1px dashed orange;" />
                     <b>
                         <div style="display:normal;text-align:center;">
                             <div style="display:inline-block;vertical-align:middle;">
                                 <form>
-                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(6);" />
+                                    <input class="like" type="button" value="♥" onclick="incrementLikeCounter(6);" />
                                 </form>
                             </div>
                             <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter6">0</h2></div>
@@ -277,7 +397,7 @@
                     <div style="display:normal;">
                         <form>
                             <textarea id="newComment6" class="write-comment" placeholder="Напиши коментар"></textarea>
-                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(6);"/>
+                            <input class="post" type="button" value="↑Објави↑" onclick="postComment(6);" />
                         </form>
                     </div>
                 </div>
@@ -289,17 +409,17 @@
                 <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
                     <img style="border-radius:20px;" src="Pictures\dunav.png" width="400px" height="500px" />
                 </div>
-                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                <div style="border-radius: 20px; padding: 10px; display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 80%); border: none; height: 500px; max-height: 500px; width: 800px; max-width: 800px; ">
                     <br />
                     <div style="display:normal;padding:10px;">
-                        <p style="font-size:25px;color:orange;">Екскурзија во Белград, на сликата е реката Дунав.</p>
+                        <p style="font-size: 25px; color: orange; margin-top: 0;">Екскурзија во Белград, на сликата е реката Дунав.</p>
                     </div>
                     <hr style="border:1px dashed orange;" />
                     <b>
                         <div style="display:normal;text-align:center;">
                             <div style="display:inline-block;vertical-align:middle;">
                                 <form>
-                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(5);" />
+                                    <input class="like" type="button" value="♥" onclick="incrementLikeCounter(5);" />
                                 </form>
                             </div>
                             <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter5">0</h2></div>
@@ -326,17 +446,17 @@
                 <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
                     <img style="border-radius:20px;" src="Pictures\crnamamba.png" width="400px" height="500px" />
                 </div>
-                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                <div style="border-radius: 20px; padding: 10px; display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 80%); border: none; height: 500px; max-height: 500px; width: 800px; max-width: 800px; ">
                     <br />
                     <div style="display:normal;padding:10px;">
-                        <p style="font-size:25px;color:orange;">Натпревар по хемија во Париз,Франција. На сликата е најотровната змија на светот : црна мамба</p>
+                        <p style="font-size: 25px; color: orange; margin-top: 0;">Натпревар по хемија во Париз,Франција. На сликата е најотровната змија на светот : црна мамба</p>
                     </div>
                     <hr style="border:1px dashed orange;" />
                     <b>
                         <div style="display:normal;text-align:center;">
                             <div style="display:inline-block;vertical-align:middle;">
                                 <form>
-                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(4);" />
+                                    <input class="like" type="button" value="♥" onclick="incrementLikeCounter(4);" />
                                 </form>
                             </div>
                             <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter4">0</h2></div>
@@ -363,17 +483,17 @@
                 <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
                     <img style="border-radius:20px;" src="Pictures\bukvas.png" width="400px" height="500px" />
                 </div>
-                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                <div style="border-radius: 20px; padding: 10px; display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 80%); border: none; height: 500px; max-height: 500px; width: 800px; max-width: 800px; ">
                     <br />
                     <div style="display:normal;padding:10px;">
-                        <p style="font-size:25px;color:orange;">S for Stefan</p>
+                        <p style="font-size: 25px; color: orange; margin-top: 0;">S for Stefan</p>
                     </div>
                     <hr style="border:1px dashed orange;" />
                     <b>
                         <div style="display:normal;text-align:center;">
                             <div style="display:inline-block;vertical-align:middle;">
                                 <form>
-                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(3);" />
+                                    <input class="like" type="button" value="♥" onclick="incrementLikeCounter(3);" />
                                 </form>
                             </div>
                             <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter3">0</h2></div>
@@ -400,17 +520,17 @@
                 <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
                     <img style="border-radius:20px;" src="Pictures\zamok.png" width="400px" height="500px" />
                 </div>
-                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                <div style="border-radius: 20px; padding: 10px; display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 80%); border: none; height: 500px; max-height: 500px; width: 800px; max-width: 800px; ">
                     <br />
                     <div style="display:normal;padding:10px;">
-                        <p style="font-size:25px;color:orange;">Екскурзија низ Европа. На сликата е Duomo Milano, или Миланската Катедрала. Најубавата градба што ја имам видено до сега</p>
+                        <p style="font-size: 25px; color: orange; margin-top: 0;">Екскурзија низ Европа. На сликата е Duomo Milano, или Миланската Катедрала. Најубавата градба што ја имам видено до сега</p>
                     </div>
                     <hr style="border:1px dashed orange;" />
                     <b>
                         <div style="display:normal;text-align:center;">
                             <div style="display:inline-block;vertical-align:middle;">
                                 <form>
-                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(2);" />
+                                    <input class="like" type="button" value="♥" onclick="incrementLikeCounter(2);" />
                                 </form>
                             </div>
                             <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter2">0</h2></div>
@@ -437,17 +557,17 @@
                 <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
                     <img style="border-radius:20px;" src="Pictures\jasimama.png" width="400px" height="500px" />
                 </div>
-                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                <div style="border-radius: 20px; padding: 10px; display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 80%); border: none; height: 500px; max-height: 500px; width: 800px; max-width: 800px; ">
                     <br />
                     <div style="display:normal;padding:10px;">
-                        <p style="font-size:25px;color:orange;">Јас и мајка ми на мојот 21ви роденден</p>
+                        <p style="font-size: 25px; color: orange; margin-top: 0;">Јас и мајка ми на мојот 21ви роденден</p>
                     </div>
                     <hr style="border:1px dashed orange;" />
                     <b>
                         <div style="display:normal;text-align:center;">
                             <div style="display:inline-block;vertical-align:middle;">
                                 <form>
-                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(1);" />
+                                    <input class="like" type="button" value="♥" onclick="incrementLikeCounter(1);" />
                                 </form>
                             </div>
                             <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter1">0</h2></div>
@@ -474,17 +594,17 @@
                 <div style="display:inline-block;vertical-align:top;width:400px;max-width:400px;margin-right:10px;">
                     <img style="border-radius:20px;" src="Pictures\rusija.png" width="400px" height="500px" />
                 </div>
-                <div style="border-radius:20px;padding:10px;display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background-color: rgb(21, 64, 131);border:none;height:500px;max-height:500px;width:800px;max-width:800px;">
+                <div style="border-radius: 20px; padding: 10px; display: inline-block; vertical-align: top; text-align: left; max-width: 500px; background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 80%); border: none; height: 500px; max-height: 500px; width: 800px; max-width: 800px; ">
                     <br />
                     <div style="display:normal;padding:10px;">
-                        <p style="font-size:25px;color:orange;">Натпревар по хемија во Санкт Петербург,Русија. На сликата е некој имот на Путин. Во далечината се наоѓа балтичко море</p>
+                        <p style="font-size: 25px; color: orange; margin-top: 0;">Натпревар по хемија во Санкт Петербург,Русија. На сликата е некој имот на Путин. Во далечината се наоѓа балтичко море</p>
                     </div>
                     <hr style="border:1px dashed orange;" />
                     <b>
                         <div style="display:normal;text-align:center;">
                             <div style="display:inline-block;vertical-align:middle;">
                                 <form>
-                                    <input class="like" type="button" value="Ми се допаѓа" onclick="incrementLikeCounter(0);" />
+                                    <input class="like" type="button" value="♥" onclick="incrementLikeCounter(0);" />
                                 </form>
                             </div>
                             <div style="display:inline-block;vertical-align:middle;margin-left:20px;"><h2 id="likeCounter0">0</h2></div>

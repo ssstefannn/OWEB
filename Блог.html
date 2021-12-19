@@ -3,10 +3,57 @@
 <head>
     <meta charset="utf-8" />
     <title>Стефан Стојковиќ</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("a[href$='.html']>button").addClass("test");
+            $("a[href$='.html']").wrap("<div style=\"display:inline\"></div>");
+            $("a[href$='.html']").each(function () {
+                $(this).css("animation-duration", (0.1 + 0.3 * $(this).parent().index()) + "s");
+            });
+            $("a[href$='.html']>button").append("<p class=\"underline\" style=\"width:0px;height:0px;\"></p>");
+            $("a[href$='.html']>button").each(function () {
+                $(this).on('mouseover', function () {
+                    $(this).children("p").css({ "width": "100%", "height": "3px", "background": "linear-gradient(-45deg, rgb(245,181,27), #ff6500, orange, gold)" });
+                    $(this).css("color", "orange");
+                });
+                $(this).on('mouseout', function () {
+                    $(this).children("p").css({ "width": "0", "height": "0", "background-color": "yellow" });
+                    $(this).css("color", "rgb(245,181,27)");
+                });
+            });
+            $(".blogtext").each(function () {
+                $(this).css("transition-duration", "0.25s");
+                $(this).on('mouseover', function () {
+                    $(this).css({ "transform": "none", "box-shadow": "0 0 10px 10px white" });
+                });
+                $(this).on('mouseout', function () {
+                    $(this).css({ "transform": "none", "box-shadow": "none" });
+                });
+            });
+        });
+    </script>
     <style>
         body {
             padding-top: 0px;
-            background-color: rgb(245,181,27);
+            background: linear-gradient(-45deg, rgba(242,222,3,1) 20%, rgba(245,181,27,1) 35%, rgba(245,122,27,1) 55%, rgba(100,100,255,1) 65%);
+            background-size: 300% 300%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .center {
@@ -18,13 +65,21 @@
         }
 
         .main {
-            background-color: rgb(22,63,88);
+            background-color:rgb(22,63,88);
+            padding:20px;
             border: none;
             border-radius: 10px;
             margin-left: 300px;
             margin-right: 300px;
-            padding: 20px;
-            overflow: auto;
+            animation-name: main;
+            animation-duration: 1s;
+        }
+
+        @keyframes main {
+            from {
+                margin-top: 300px;
+                opacity: 0%;
+            }
         }
 
 
@@ -38,12 +93,12 @@
             border-radius: 50px;
             padding: 20px;
             background-color: #8d1717;
+            background: linear-gradient(-45deg, rgba(242,133,133,1) 3%, rgba(141,23,23,1) 84%);
         }
 
         button {
-            border: 5px solid black;
             border-radius: 10px;
-            background-color: rgb(22,63,88);
+            background: radial-gradient(250px, rgba(54,163,230,1) 3%, rgba(22,63,88,1) 84%);
             color: rgb(245,181,27);
             font-size: 200%;
             transition-duration: 0.4s;
@@ -52,9 +107,10 @@
             width: 270px;
         }
 
-            button:hover {
-                box-shadow: 0 0 16px 0 blue, 0 0 50px 0 green;
-            }
+        .test:hover {
+            transform: scale(1.5);
+            color: rgb(255,200,50);
+        }
 
         .bigtext {
             width: 100%;
@@ -65,8 +121,8 @@
         }
 
         .post {
-            background-color: darkblue;
-            color: white;
+            background-color: rgba(54,163,230,1);
+            color: orange;
             font-weight: bold;
             width: 100%;
             height: 50px;
@@ -82,10 +138,27 @@
 
         .blogtext {
             width: 100%;
-            background-color: rgb(21, 64, 131);
+            background: linear-gradient(-45deg, rgba(54,163,230,0.9) 3%, rgba(22,64,88,1) 60%);
             color: white;
             border-radius: 10px;
             padding: 2px;
+        }
+
+        a {
+            color: orange;
+            animation-name: intro;
+        }
+
+        @keyframes intro {
+            from {
+                margin-left: -1000px;
+            }
+        }
+
+        .underline {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            transition: height 0.25s,width 0.5s,background 0s;
         }
 
         p {
@@ -101,9 +174,8 @@
             var t = new Date();
             newtext.classList.add("blogtext");
             newtext.innerHTML = "<h1>" + title.value + "</h1>" +
-                "<img src=\"Pictures\\sharebuttons.png\" />" +
                 "<hr style=\"border:1px dashed orange;\" />" +
-                "<p style=\"text-align:center;\">датум :" + t.getDate() +"."+ (t.getMonth()+1) +"."+ t.getFullYear() + " време : " + t.getHours() +":"+ t.getMinutes() + "</p>" +
+                "<p style=\"text-align:center;\">датум :" + t.getDate() + "." + (t.getMonth() + 1) + "." + t.getFullYear() + " време : " + t.getHours() + ":" + t.getMinutes() + "</p>" +
                 "<hr style=\"border:1px dashed orange;\" />" +
                 "<p>" + content.value + "</p>";
             var blog = document.getElementById("blog");
@@ -121,7 +193,7 @@
     <div class="center">
         <h1 style="background-color:rgb(22,63,88);margin-top:-10px;margin-left:-10px;margin-right:-10px;padding-bottom:5px;margin-bottom:5px;">Добредојдовте на мојата ВЕБ страна!</h1>
     </div>
-    <div class="center">
+    <div class="center" style="text-align:left;margin-left:100px;">
         <a href="Дома.html"><button class="home">ДОМА</button></a>
         <a href="Омилени нешта.html"><button>Омилени нешта</button></a>
         <a href="Галерија.html"><button>Галерија</button></a>
@@ -131,9 +203,6 @@
     </div>
     <hr />
     <br /><br /><br />
-    <div style="float:left;">
-        <iframe style="padding-left:55px;position:sticky;top:0px;" src="https://free.timeanddate.com/clock/i82f61yq/n673/szw160/szh160/hoc09f/hbw0/hfc09f/cf100/hnce1ead6/fiv0/fas30/fdi66/mqc000/mql15/mqw4/mqd98/mhc000/mhl15/mhw4/mhd98/mmc000/mml10/mmw1/mmd98/hwm2/hhs2/hms2" frameborder="0" width="160" height="160"></iframe>
-    </div>
     <div class="center main">
         <h2>Напиши нешто ново</h2>
         <hr />
@@ -150,8 +219,22 @@
         <br /><br /><br />
         <div id="blog">
             <div class="blogtext">
+                <h1>Што е тоа вештачка невронска мрежа?</h1>
+                <hr style="border:1px dashed orange;" />
+                <p style="text-align:center;">датум : 19.12.2021 време : 15:04</p>
+                <hr style="border:1px dashed orange;" />
+                <p>
+                    Вештачката невронска мрежа е систем кој е заснован на биолошките невронски мрежи, како што е мозокот. Невроните меѓусебно се поврзани со врски кои се нарекуваат синапси. Секој неврон поседува илјадници врски со други неврони преку кои константно добива сигнали што треба да бидат стигнат до телото на клетката (невронот). Доколку резултантната сума од сигналите надмине одреден дефиниран праг (threshold), преку аксонот се испраќа одговор. Тоа значи дека биолошкиот неврон ги сумира сигналите кои пристигнуваат до него, добиената сума ја споредува со одреден праг и доколку таа го надмине прагот, невронот испраќа одреден излезен сигнал.
+
+                    <br /><br />
+                    Невронските мрежи со својата извонредна можност за изведување смисла од комплицирани или непрецизни податоци, може да се користат за да се изведат шаблони и да се детектираат трендовите кои се премногу комплексни за да бидат забележани од страна на луѓето или други сметачки техники. Обучена невронска мрежа може да се смета за експерт во категоријата на информациите што и се дадени да се анализираат. Овој експерт потоа може да се користи за да обезбеди прогнози при дадени ситуации во доменот на нашиот интерес, и да одговори на прашања од видот „што ако...?“.
+                </p>
+            </div>
+            <br />
+            <hr />
+            <br />
+            <div class="blogtext">
                 <h1>Што е тоа блог?</h1>
-                <img src="Pictures\sharebuttons.png" />
                 <hr style="border:1px dashed orange;" />
                 <p style="text-align:center;">датум : 25.10.2021 време : 19:30</p>
                 <hr style="border:1px dashed orange;" />
@@ -173,7 +256,6 @@
             <br />
             <div class="blogtext">
                 <h1>Што е тоа светска пајажина(The World Wide Web)?</h1>
-                <img src="Pictures\sharebuttons.png" />
                 <hr style="border:1px dashed orange;" />
                 <p style="text-align:center;">датум : 25.10.2021 време : 19:00</p>
                 <hr style="border:1px dashed orange;" />
